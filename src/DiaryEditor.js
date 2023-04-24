@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-const DiaryEditor = (onCreate) => {
+const DiaryEditor = ({ onCreate }) => {
   const [state, setState] = useState({
     author: "",
     content: "",
@@ -60,6 +60,8 @@ const DiaryEditor = (onCreate) => {
             //     });
             //   }
           }
+          placeholder="작성자"
+          type="text"
         />
       </div>
       <div>
@@ -67,6 +69,8 @@ const DiaryEditor = (onCreate) => {
           ref={contentInput}
           name="content"
           value={state.content}
+          type="text"
+          placeholder="일기"
           onChange={
             handleChangeState
             // (event) => {
@@ -80,7 +84,7 @@ const DiaryEditor = (onCreate) => {
         />
       </div>
       <div>
-        오늘의 감정점수 : &nbsp;
+        <span>오늘의 감정점수 : &nbsp;</span>
         <select
           name="emotion"
           value={state.emotion}

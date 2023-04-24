@@ -1,8 +1,7 @@
 import DiaryItem from "./DiaryItem.js";
 
-const DiaryList = ({ diaryList }) => {
+const DiaryList = ({ onDelete, diaryList }) => {
   //{diaryList} = props을 받아온거
-  console.log(diaryList);
 
   return (
     <div className="DiaryList">
@@ -10,7 +9,7 @@ const DiaryList = ({ diaryList }) => {
       <h4>{diaryList.length}개의 일기가 있습니다</h4>
       <div>
         {diaryList.map((it) => (
-          <DiaryItem key={it.id} {...it} />
+          <DiaryItem key={it.id} {...it} onDelete={onDelete} />
         ))}
       </div>
     </div>
