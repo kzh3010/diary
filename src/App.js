@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
@@ -39,7 +39,7 @@ import DiaryList from "./DiaryList";
 function App() {
   const [data, setData] = useState([]); //일기 데이터 배열이기 때문에 배열을 초기값으로
 
-  const dataId = uesRef(0);
+  const dataId = useRef(0);
 
   const onCreate = (author, content, emotion) => {
     //일기 데이터 추가 하는
@@ -57,9 +57,10 @@ function App() {
   return (
     <div className="App">
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList diaryList={[data]} />
+      <DiaryList diaryList={data} />
     </div>
   );
 }
 
 export default App;
+//////////////////////////////////////////
