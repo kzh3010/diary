@@ -55,16 +55,27 @@ function App() {
     setData([newItem, ...data]);
   };
 
-  const onDelete = (targetId) => {
+  const onRemove = (targetId) => {
     console.log(`${targetId}가 삭제 되었습니다`);
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
   };
 
+  const onEdit = (targetId, newContent) => {
+    // 수정하기 위한 event, (수정 대상, 수정 내용)
+    setData(
+      data.map(
+        (
+          it //원본 data 배열에 map이라는 내장함수 이용 it 모든요소 순회
+        ) => (it.id === targetId ? { ...it, content: newContent } : it) //새로운 배열 만들어서 setData에 전달
+      )
+    );
+  };
+
   return (
     <div className="App">
       <DiaryEditor onCreate={onCreate} />
-      <DiaryList onDelete={onDelete} diaryList={data} />
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
     </div>
   );
 }
