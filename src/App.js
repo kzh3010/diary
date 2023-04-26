@@ -1,41 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 // import OptimizeTest from "./OptimizeTest";
-
-// const dummyList = [
-//   // 이 배열을 DiaryList에게 props으로 전달
-//   // diaryList = {dummyList} -> DiaryList에 전달
-//   {
-//     id: 1,
-//     author: "kzh",
-//     content: "HI 1",
-//     emotion: 5,
-//     created_date: new Date().getTime(), // 생성날짜(현재 시간 기준)in milliseconds
-//   },
-//   {
-//     id: 2,
-//     author: "홍길동",
-//     content: "HI 2",
-//     emotion: 4,
-//     created_date: new Date().getTime(), // 생성날짜(현재 시간 기준)in milliseconds
-//   },
-//   {
-//     id: 3,
-//     author: "일지매",
-//     content: "HI 3",
-//     emotion: 2,
-//     created_date: new Date().getTime(), // 생성날짜(현재 시간 기준)in milliseconds
-//   },
-//   {
-//     id: 4,
-//     author: "박씨",
-//     content: "HI 4",
-//     emotion: 1,
-//     created_date: new Date().getTime(), // 생성날짜(현재 시간 기준)in milliseconds
-//   },
-// ];
 
 //https://jsonplaceholder.typicode.com/comments
 
@@ -66,7 +33,7 @@ function App() {
     getData();
   }, []);
 
-  const onCreate = (author, content, emotion) => {
+  const onCreate = useCallback((author, content, emotion) => {
     //일기 데이터 추가 하는
     const created_date = new Date().getTime();
     const newItem = {
@@ -77,24 +44,21 @@ function App() {
       id: dataId.current,
     };
     dataId.current += 1;
-    setData([newItem, ...data]);
-  };
+    setData((data) => [newItem, ...data]);
+  }, []);
 
-  const onRemove = (targetId) => {
-    const newDiaryList = data.filter((it) => it.id !== targetId);
-    setData(newDiaryList);
-  };
+  const onRemove = useCallback((targetId) => {
+    setData((data) => data.filter((it) => it.id !== targetId));
+  }, []);
 
-  const onEdit = (targetId, newContent) => {
+  const onEdit = useCallback((targetId, newContent) => {
     // 수정하기 위한 event, (수정 대상, 수정 내용)
-    setData(
+    setData((data) =>
       data.map(
-        (
-          it //원본 data 배열에 map이라는 내장함수 이용 it 모든요소 순회
-        ) => (it.id === targetId ? { ...it, content: newContent } : it) //새로운 배열 만들어서 setData에 전달
+        (it) => (it.id === targetId ? { ...it, content: newContent } : it) //새로운 배열 만들어서 setData에 전달
       )
     );
-  };
+  }, []);
 
   const getDiaryAnalysis = useMemo(() => {
     const goodCount = data.filter((it) => it.emotion >= 3).length;
