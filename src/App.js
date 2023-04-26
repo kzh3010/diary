@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
+// import OptimizeTest from "./OptimizeTest";
 
 // const dummyList = [
 //   // 이 배열을 DiaryList에게 props으로 전달
@@ -80,7 +81,6 @@ function App() {
   };
 
   const onRemove = (targetId) => {
-    console.log(`${targetId}가 삭제 되었습니다`);
     const newDiaryList = data.filter((it) => it.id !== targetId);
     setData(newDiaryList);
   };
@@ -97,8 +97,6 @@ function App() {
   };
 
   const getDiaryAnalysis = useMemo(() => {
-    console.log("일기 분석 시작");
-
     const goodCount = data.filter((it) => it.emotion >= 3).length;
     const badCount = data.length - goodCount;
     const goodRatio = (goodCount / data.length) * 100;
